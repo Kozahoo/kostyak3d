@@ -62,6 +62,10 @@ cancel={
 ]
 }
 
+[physics]
+
+3d/default_gravity=19.6
+
 [rendering]
 
 environment/default_environment="res://default_env.tres"

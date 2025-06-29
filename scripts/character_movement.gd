@@ -1,15 +1,13 @@
 extends CharacterBody3D
 
 # Movement settings
-@export var move_speed := 5.0
-@export var sprint_speed := 8.0
-@export var acceleration := 10.0
-@export var rotation_speed := 12.0
-@export var jump_velocity := 4.5
-
+@export var move_speed := 6.0
+@export var sprint_speed := 8.5
+@export var acceleration := 2.5
+@export var jump_velocity := 6.5
 # Camera settings
-@export var camera_sensitivity := 0.003
-@export var camera_pitch_limit := deg_to_rad(80)
+@export var camera_sensitivity := .001
+@export var camera_pitch_limit := deg_to_rad(45)
 
 # Get the gravity from the project settings
 var gravity: float = ProjectSettings.get_setting("physics/3d/default_gravity")
@@ -38,49 +36,46 @@ func _unhandled_input(event):
 		camera_pivot.rotation.x = clamp(camera_pivot.rotation.x, -camera_pitch_limit, camera_pitch_limit)
 	
 	# Toggle mouse capture
-	if event.is_action_pressed("uicancel"):
+	if event.is_action_pressed("cancel"):
 		if Input.get_mouse_mode() == Input.MOUSE_MODE_CAPTURED:
 			Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
 		else:
 			Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
 
 func _physics_process(delta):
-	# Handle movement
+	# Handle movement input first
 	var input_dir := Input.get_vector("move_left", "move_right", "move_forward", "move_back")
 	is_sprinting = Input.is_action_pressed("sprint")
-	
+
 	# Calculate direction relative to where player is facing
 	direction = (transform.basis * Vector3(input_dir.x, 0, input_dir.y)).normalized()
-	
+
 	# Apply gravity
 	if not is_on_floor():
 		velocity.y -= gravity * delta
-	
-	# Handle jump
+
+	# Handle jump - this should come BEFORE horizontal movement
+	print(Input.is_action_just_pressed("jump"), is_on_floor())
 	if Input.is_action_just_pressed("jump") and is_on_floor():
 		velocity.y = jump_velocity
-	
-	# Determine target speed
-	var target_speed = sprint_speed if is_sprinting else move_speed
-	
-	# Smoothly adjust current speed toward target speed
-	current_speed = lerp(current_speed, target_speed if direction else 0.0, acceleration * delta)
-	
-	# Apply movement
-	if direction:
-		velocity.x = direction.x * current_speed
-		velocity.z = direction.z * current_speed
-	else:
-		# Apply friction when no input
-		velocity.x = move_toward(velocity.x, 0, current_speed)
-		velocity.z = move_toward(velocity.z, 0, current_speed)
-	
-	# Rotate character to face movement direction
-	#if direction:
-		#var look_direction = Vector2(velocity.z, velocity.x).normalized()
-		#var target_angle = atan2(look_direction.x, look_direction.y)
-		#rotation.y = lerp_angle(rotation.y, target_angle, rotation_speed * delta)
-	
+
+	# Only apply horizontal movement if we're on the floor or have control in air
+	if is_on_floor() or (not is_on_floor() and direction.length() > 0):
+		# Determine target speed
+		var target_speed = sprint_speed if is_sprinting else move_speed
+
+		# Smoothly adjust current speed toward target speed
+		current_speed = lerp(current_speed, target_speed if direction else 0.0, acceleration * delta)
+
+		# Apply horizontal movement
+		if direction:
+			velocity.x = direction.x * current_speed
+			velocity.z = direction.z * current_speed
+		else:
+			# Apply friction when no input
+			velocity.x = move_toward(velocity.x, 0, current_speed)
+			velocity.z = move_toward(velocity.z, 0, current_speed)
+
 	move_and_slide()
 
 func _process(delta):

@@ -1,7 +1,7 @@
 [gd_scene load_steps=8 format=3 uid="uid://coledwrm7usje"]
 
-[ext_resource type="Script" uid="uid://blqy6ph5er7yi" path="res://scripts/character_movement.gd" id="1_5hfv0"]
-[ext_resource type="PackedScene" uid="uid://bmft4x71382g0" path="res://prefabs/box.tscn" id="2_0bhed"]
+[ext_resource type="Script" uid="uid://blqy6ph5er7yi" path="res://scripts/character_movement.gd" id="1_ba4lm"]
+[ext_resource type="PackedScene" uid="uid://bmft4x71382g0" path="res://prefabs/box.tscn" id="2_l20p6"]
 
 [sub_resource type="PlaneMesh" id="PlaneMesh_fr1sm"]
 size = Vector2(100, 100)
@@ -21,6 +21,7 @@ size = Vector3(1, 2, 1)
 
 [node name="Sun" type="DirectionalLight3D" parent="."]
 transform = Transform3D(0.682624, 0.51894, -0.514516, 0.0328797, 0.68155, 0.731032, 0.73003, -0.515937, 0.44818, 0, 0, 0)
+shadow_enabled = true
 
 [node name="Ground" type="StaticBody3D" parent="."]
 
@@ -32,7 +33,7 @@ shape = SubResource("WorldBoundaryShape3D_5hfv0")
 
 [node name="Player" type="CharacterBody3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.40795, 0)
-script = ExtResource("1_5hfv0")
+script = ExtResource("1_ba4lm")
 
 [node name="Hitbox" type="CollisionShape3D" parent="Player"]
 shape = SubResource("CapsuleShape3D_fr1sm")
@@ -47,11 +48,11 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.01632, 0)
 transform = Transform3D(1, 0, 0, 0, 0.952449, 0.304698, 0, -0.304698, 0.952449, 0, 0.905864, 3.39681)
 current = true
 
-[node name="Box1" parent="." instance=ExtResource("2_0bhed")]
+[node name="Box1" parent="." instance=ExtResource("2_l20p6")]
 transform = Transform3D(0.90415, 0, 0.427216, 0, 1, 0, -0.427216, 0, 0.90415, 5.95916, 0.5, -1.64823)
 
-[node name="Box2" parent="." instance=ExtResource("2_0bhed")]
+[node name="Box2" parent="." instance=ExtResource("2_l20p6")]
 transform = Transform3D(0.886777, 0, -0.462198, 0, 1, 0, 0.462198, 0, 0.886777, 1.16222, 0.5, 3.51278)
 
-[node name="Box3" parent="." instance=ExtResource("2_0bhed")]
+[node name="Box3" parent="." instance=ExtResource("2_l20p6")]
 transform = Transform3D(0.782434, 0, -0.622733, 0, 1, 0, 0.622733, 0, 0.782434, 2.75557, 0.5, -1.95201)
