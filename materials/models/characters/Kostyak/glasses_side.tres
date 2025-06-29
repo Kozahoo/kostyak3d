@@ -1,0 +1,13 @@
+[gd_resource type="StandardMaterial3D" load_steps=2 format=3 uid="uid://dm1d6t0i0q1kd"]
+
+[ext_resource type="Texture2D" uid="uid://cfbd0bx53tgsg" path="res://models/characters/Kostyak/Kostyak_glasses_side.png" id="1_atkha"]
+
+[resource]
+resource_name = "glasses_side"
+transparency = 2
+alpha_scissor_threshold = 0.5
+alpha_antialiasing_mode = 0
+cull_mode = 2
+albedo_texture = ExtResource("1_atkha")
+metallic_specular = 0.0
+roughness = 0.0
