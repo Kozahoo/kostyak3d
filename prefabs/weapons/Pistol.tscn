@@ -1,0 +1,36 @@
+[gd_scene load_steps=7 format=3 uid="uid://cip244kkkb328"]
+
+[ext_resource type="Script" uid="uid://ba3x2i4yjqja3" path="res://scripts/weapons/weapon_base.gd" id="1_ee7nw"]
+[ext_resource type="PackedScene" uid="uid://c2h1a7eni5s7j" path="res://prefabs/projectiles/Bullet.tscn" id="2_3321k"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_72ieh"]
+albedo_color = Color(0.114897, 0.114897, 0.114897, 1)
+
+[sub_resource type="BoxMesh" id="BoxMesh_3321k"]
+material = SubResource("StandardMaterial3D_72ieh")
+size = Vector3(1, 0.3, 0.1)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_4dohe"]
+albedo_color = Color(0.393552, 0.211827, 0.12422, 1)
+
+[sub_resource type="BoxMesh" id="BoxMesh_0hq0s"]
+material = SubResource("StandardMaterial3D_4dohe")
+size = Vector3(0.2, 0.45, 0.1)
+
+[node name="Pistol" type="Node3D" node_paths=PackedStringArray("muzzle")]
+script = ExtResource("1_ee7nw")
+weapon_name = "Pistol"
+bullet_scene = ExtResource("2_3321k")
+muzzle = NodePath("Muzzle")
+
+[node name="Muzzle" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.370459, -0.857494)
+
+[node name="Mesh" type="MeshInstance3D" parent="."]
+transform = Transform3D(0.0634343, 0.576505, -0.814627, 0.00856227, 0.815927, 0.578091, 0.997949, -0.0436453, 0.0468221, 0.169603, 0.339895, -0.552501)
+mesh = SubResource("BoxMesh_3321k")
+skeleton = NodePath("")
+
+[node name="Mesh" type="MeshInstance3D" parent="Mesh"]
+transform = Transform3D(0.904656, -0.426142, 0, 0.426143, 0.904656, 0, 0, 0, 1, 0.347556, -0.2298, 0.0159208)
+mesh = SubResource("BoxMesh_0hq0s")

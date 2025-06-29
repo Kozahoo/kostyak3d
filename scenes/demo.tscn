@@ -14,6 +14,92 @@ size = Vector2(100, 100)
 transform = Transform3D(0.682624, 0.51894, -0.514516, 0.0328797, 0.68155, 0.731032, 0.73003, -0.515937, 0.44818, 0, 0, 0)
 shadow_enabled = true
 
+[node name="Player" parent="." instance=ExtResource("1_ba4lm")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.40795, 0)
+
+[node name="Targets" type="Node3D" parent="."]
+
+[node name="Box1" parent="Targets" instance=ExtResource("2_l20p6")]
+transform = Transform3D(0.90415, 0, 0.427216, 0, 1, 0, -0.427216, 0, 0.90415, 5.95916, 0.5, -1.64823)
+
+[node name="Box5" parent="Targets" instance=ExtResource("2_l20p6")]
+transform = Transform3D(0.999556, 0, -0.0298233, 0, 1, 0, 0.0298233, 0, 0.999556, 5.95916, 1.78575, -1.64823)
+
+[node name="Box6" parent="Targets" instance=ExtResource("2_l20p6")]
+transform = Transform3D(0.741402, 0, -0.671061, 0, 1, 0, 0.671061, 0, 0.741402, 5.95916, 3.35188, -1.64823)
+
+[node name="Box2" parent="Targets" instance=ExtResource("2_l20p6")]
+transform = Transform3D(0.886777, 0, -0.462198, 0, 1, 0, 0.462198, 0, 0.886777, 1.16222, 0.5, 3.51278)
+
+[node name="Box7" parent="Targets" instance=ExtResource("2_l20p6")]
+transform = Transform3D(0.994108, 0, 0.108398, 0, 1, 0, -0.108398, 0, 0.994108, 1.16222, 2.48117, 3.51278)
+
+[node name="Box8" parent="Targets" instance=ExtResource("2_l20p6")]
+transform = Transform3D(0.80999, 0, -0.586443, 0, 1, 0, 0.586443, 0, 0.80999, 6.2531, 2.48117, 3.51278)
+
+[node name="Box10" parent="Targets" instance=ExtResource("2_l20p6")]
+transform = Transform3D(0.688671, 0, -0.725074, 0, 1, 0, 0.725074, 0, 0.688671, 6.18565, 2.16113, 13.0299)
+
+[node name="Box11" parent="Targets" instance=ExtResource("2_l20p6")]
+transform = Transform3D(0.284434, 0, -0.958696, 0, 1, 0, 0.958696, 0, 0.284434, 6.18565, 3.44688, 13.0299)
+
+[node name="Box12" parent="Targets" instance=ExtResource("2_l20p6")]
+transform = Transform3D(-0.405381, 0, -0.914148, 0, 1, 0, 0.914148, 0, -0.405381, 6.18565, 5.01301, 13.0299)
+
+[node name="Box13" parent="Targets" instance=ExtResource("2_l20p6")]
+transform = Transform3D(-0.161518, 0, -0.98687, 0, 1, 0, 0.98687, 0, -0.161518, -0.217164, 2.16113, 10.0887)
+
+[node name="Box14" parent="Targets" instance=ExtResource("2_l20p6")]
+transform = Transform3D(0.41401, 0, -0.910272, 0, 1, 0, 0.910272, 0, 0.41401, -0.217164, 4.1423, 10.0887)
+
+[node name="Box15" parent="Targets" instance=ExtResource("2_l20p6")]
+transform = Transform3D(-0.303551, 0, -0.952815, 0, 1, 0, 0.952815, 0, -0.303551, 1.37576, 4.1423, 14.9239)
+
+[node name="Box16" parent="Targets" instance=ExtResource("2_l20p6")]
+transform = Transform3D(-0.830985, 0, -0.556295, 0, 1, 0, 0.556295, 0, -0.830985, 1.37576, 5.48379, 14.9239)
+
+[node name="Box17" parent="Targets" instance=ExtResource("2_l20p6")]
+transform = Transform3D(-0.346641, 0, -0.937997, 0, 1, 0, 0.937997, 0, -0.346641, 5.47178, 2.16113, 9.89212)
+
+[node name="Box18" parent="Targets" instance=ExtResource("2_l20p6")]
+transform = Transform3D(-0.804189, 0, -0.594373, 0, 1, 0, 0.594373, 0, -0.804189, 5.47178, 4.01666, 9.89212)
+
+[node name="Box19" parent="Targets" instance=ExtResource("2_l20p6")]
+transform = Transform3D(0.688671, 0, -0.725074, 0, 1, 0, 0.725074, 0, 0.688671, -1.73443, 2.16113, 8.65758)
+
+[node name="Box20" parent="Targets" instance=ExtResource("2_l20p6")]
+transform = Transform3D(0.284434, 0, -0.958696, 0, 1, 0, 0.958696, 0, 0.284434, -1.73443, 3.44688, 8.65758)
+
+[node name="Box21" parent="Targets" instance=ExtResource("2_l20p6")]
+transform = Transform3D(-0.405381, 0, -0.914148, 0, 1, 0, 0.914148, 0, -0.405381, -1.73443, 5.01301, 8.65758)
+
+[node name="Box22" parent="Targets" instance=ExtResource("2_l20p6")]
+transform = Transform3D(-0.161518, 0, -0.98687, 0, 1, 0, 0.98687, 0, -0.161518, -8.13724, 2.16113, 5.71638)
+
+[node name="Box23" parent="Targets" instance=ExtResource("2_l20p6")]
+transform = Transform3D(0.41401, 0, -0.910273, 0, 1, 0, 0.910273, 0, 0.41401, -8.13724, 4.1423, 5.71638)
+
+[node name="Box24" parent="Targets" instance=ExtResource("2_l20p6")]
+transform = Transform3D(-0.303551, 0, -0.952815, 0, 1, 0, 0.952815, 0, -0.303551, -6.54431, 4.1423, 10.5516)
+
+[node name="Box25" parent="Targets" instance=ExtResource("2_l20p6")]
+transform = Transform3D(-0.830985, 0, -0.556295, 0, 1, 0, 0.556295, 0, -0.830985, -6.54431, 5.48379, 10.5516)
+
+[node name="Box26" parent="Targets" instance=ExtResource("2_l20p6")]
+transform = Transform3D(-0.346641, 0, -0.937997, 0, 1, 0, 0.937997, 0, -0.346641, -2.4483, 2.16113, 5.5198)
+
+[node name="Box27" parent="Targets" instance=ExtResource("2_l20p6")]
+transform = Transform3D(-0.804189, 0, -0.594373, 0, 1, 0, 0.594373, 0, -0.804189, -2.4483, 4.01666, 5.5198)
+
+[node name="Box9" parent="Targets" instance=ExtResource("2_l20p6")]
+transform = Transform3D(0.268348, 0, -0.963322, 0, 1, 0, 0.963322, 0, 0.268348, 6.2531, 3.82266, 3.51278)
+
+[node name="Box3" parent="Targets" instance=ExtResource("2_l20p6")]
+transform = Transform3D(0.782434, 0, -0.622733, 0, 1, 0, 0.622733, 0, 0.782434, 2.75557, 0.5, -1.95201)
+
+[node name="Box4" parent="Targets" instance=ExtResource("2_l20p6")]
+transform = Transform3D(0.312898, 0, -0.949786, 0, 1, 0, 0.949786, 0, 0.312898, 2.75557, 2.35553, -1.95201)
+
 [node name="Ground" type="StaticBody3D" parent="."]
 
 [node name="Mesh" type="MeshInstance3D" parent="Ground"]
@@ -21,15 +107,3 @@ mesh = SubResource("PlaneMesh_fr1sm")
 
 [node name="Hitbox" type="CollisionShape3D" parent="Ground"]
 shape = SubResource("WorldBoundaryShape3D_5hfv0")
-
-[node name="Player" parent="." instance=ExtResource("1_ba4lm")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.40795, 0)
-
-[node name="Box1" parent="." instance=ExtResource("2_l20p6")]
-transform = Transform3D(0.90415, 0, 0.427216, 0, 1, 0, -0.427216, 0, 0.90415, 5.95916, 0.5, -1.64823)
-
-[node name="Box2" parent="." instance=ExtResource("2_l20p6")]
-transform = Transform3D(0.886777, 0, -0.462198, 0, 1, 0, 0.462198, 0, 0.886777, 1.16222, 0.5, 3.51278)
-
-[node name="Box3" parent="." instance=ExtResource("2_l20p6")]
-transform = Transform3D(0.782434, 0, -0.622733, 0, 1, 0, 0.622733, 0, 0.782434, 2.75557, 0.5, -1.95201)

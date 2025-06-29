@@ -9,6 +9,8 @@ extends CharacterBody3D
 @export var camera_sensitivity := .001
 @export var camera_pitch_limit := deg_to_rad(45)
 
+@onready var weapon_manager: WeaponManager = $WeaponManager
+
 # Get the gravity from the project settings
 var gravity: float = ProjectSettings.get_setting("physics/3d/default_gravity")
 
@@ -42,6 +44,16 @@ func _unhandled_input(event):
 		else:
 			Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
 
+	# Weapon switching
+	if event.is_action_pressed("weapon_1"):
+		weapon_manager.switch_weapon(0)
+	if event.is_action_pressed("weapon_2"):
+		weapon_manager.switch_weapon(1)
+
+	# Firing
+	if event.is_action_pressed("fire") or (weapon_manager.get_current_weapon() and weapon_manager.get_current_weapon().automatic and Input.is_action_pressed("fire")):
+		weapon_manager.fire_current_weapon()
+
 func _physics_process(delta):
 	# Handle movement input first
 	var input_dir := Input.get_vector("move_left", "move_right", "move_forward", "move_back")
@@ -55,7 +67,6 @@ func _physics_process(delta):
 		velocity.y -= gravity * delta
 
 	# Handle jump - this should come BEFORE horizontal movement
-	print(Input.is_action_just_pressed("jump"), is_on_floor())
 	if Input.is_action_just_pressed("jump") and is_on_floor():
 		velocity.y = jump_velocity
 
