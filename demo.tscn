@@ -1,15 +1,57 @@
-[gd_scene load_steps=3 format=3 uid="uid://coledwrm7usje"]
+[gd_scene load_steps=8 format=3 uid="uid://coledwrm7usje"]
+
+[ext_resource type="Script" uid="uid://blqy6ph5er7yi" path="res://scripts/character_movement.gd" id="1_5hfv0"]
+[ext_resource type="PackedScene" uid="uid://bmft4x71382g0" path="res://prefabs/box.tscn" id="2_0bhed"]
 
 [sub_resource type="PlaneMesh" id="PlaneMesh_fr1sm"]
+size = Vector2(100, 100)
 
 [sub_resource type="WorldBoundaryShape3D" id="WorldBoundaryShape3D_5hfv0"]
 
-[node name="Node3D" type="Node3D"]
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_fr1sm"]
 
-[node name="StaticBody3D" type="StaticBody3D" parent="."]
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_5hfv0"]
+albedo_color = Color(1, 0.402818, 0.424294, 1)
 
-[node name="MeshInstance3D" type="MeshInstance3D" parent="StaticBody3D"]
+[sub_resource type="BoxMesh" id="BoxMesh_5hfv0"]
+material = SubResource("StandardMaterial3D_5hfv0")
+size = Vector3(1, 2, 1)
+
+[node name="Demo" type="Node3D"]
+
+[node name="Sun" type="DirectionalLight3D" parent="."]
+transform = Transform3D(0.682624, 0.51894, -0.514516, 0.0328797, 0.68155, 0.731032, 0.73003, -0.515937, 0.44818, 0, 0, 0)
+
+[node name="Ground" type="StaticBody3D" parent="."]
+
+[node name="Mesh" type="MeshInstance3D" parent="Ground"]
 mesh = SubResource("PlaneMesh_fr1sm")
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="StaticBody3D"]
+[node name="Hitbox" type="CollisionShape3D" parent="Ground"]
 shape = SubResource("WorldBoundaryShape3D_5hfv0")
+
+[node name="Player" type="CharacterBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.40795, 0)
+script = ExtResource("1_5hfv0")
+
+[node name="Hitbox" type="CollisionShape3D" parent="Player"]
+shape = SubResource("CapsuleShape3D_fr1sm")
+
+[node name="Mesh" type="MeshInstance3D" parent="Player"]
+mesh = SubResource("BoxMesh_5hfv0")
+
+[node name="Pivot" type="Node3D" parent="Player"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.01632, 0)
+
+[node name="Camera" type="Camera3D" parent="Player/Pivot"]
+transform = Transform3D(1, 0, 0, 0, 0.952449, 0.304698, 0, -0.304698, 0.952449, 0, 0.905864, 3.39681)
+current = true
+
+[node name="Box1" parent="." instance=ExtResource("2_0bhed")]
+transform = Transform3D(0.90415, 0, 0.427216, 0, 1, 0, -0.427216, 0, 0.90415, 5.95916, 0.5, -1.64823)
+
+[node name="Box2" parent="." instance=ExtResource("2_0bhed")]
+transform = Transform3D(0.886777, 0, -0.462198, 0, 1, 0, 0.462198, 0, 0.886777, 1.16222, 0.5, 3.51278)
+
+[node name="Box3" parent="." instance=ExtResource("2_0bhed")]
+transform = Transform3D(0.782434, 0, -0.622733, 0, 1, 0, 0.622733, 0, 0.782434, 2.75557, 0.5, -1.95201)
