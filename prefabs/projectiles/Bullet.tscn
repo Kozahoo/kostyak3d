@@ -15,6 +15,7 @@ margin = 0.1
 radius = 0.1
 
 [node name="Bullet" type="RigidBody3D"]
+collision_mask = 0
 script = ExtResource("1_hdm5d")
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="."]

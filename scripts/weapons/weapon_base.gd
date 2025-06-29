@@ -55,7 +55,7 @@ func fire():
 		
 		# Set bullet velocity
 		if bullet.has_method("initialize"):
-			bullet.initialize(bullet_speed, damage, )
+			bullet.initialize(bullet_speed, damage)
 
 func reload():
 	# Play reload animation/sound
