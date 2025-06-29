@@ -1,0 +1,33 @@
+[gd_scene load_steps=6 format=3 uid="uid://duitqb67xweb5"]
+
+[ext_resource type="Script" uid="uid://blqy6ph5er7yi" path="res://scripts/character_movement.gd" id="1_72ieh"]
+[ext_resource type="PackedScene" uid="uid://dy72ppjp8lbtf" path="res://models/characters/Kostyak/Kostyak.glb" id="2_4dohe"]
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_fr1sm"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_5hfv0"]
+albedo_color = Color(1, 0.402818, 0.424294, 1)
+
+[sub_resource type="BoxMesh" id="BoxMesh_5hfv0"]
+material = SubResource("StandardMaterial3D_5hfv0")
+size = Vector3(1, 2, 1)
+
+[node name="Player" type="CharacterBody3D"]
+script = ExtResource("1_72ieh")
+
+[node name="Hitbox" type="CollisionShape3D" parent="."]
+shape = SubResource("CapsuleShape3D_fr1sm")
+
+[node name="Mesh" type="MeshInstance3D" parent="."]
+visible = false
+mesh = SubResource("BoxMesh_5hfv0")
+
+[node name="Kostyak" parent="." instance=ExtResource("2_4dohe")]
+transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 0, -1, 0)
+
+[node name="Pivot" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.01632, 0)
+
+[node name="Camera" type="Camera3D" parent="Pivot"]
+transform = Transform3D(1, 0, 0, 0, 0.952449, 0.304698, 0, -0.304698, 0.952449, 0, 0.905864, 3.39681)
+current = true
