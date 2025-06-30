@@ -15,7 +15,7 @@ export_credentials.cfg
 data_*/
 mono_crash.*.json
 
-# CUSTOM
+# Custom
 models/
 materials/
 *.rar
