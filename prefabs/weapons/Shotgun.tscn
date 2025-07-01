@@ -1,29 +1,55 @@
-[gd_scene load_steps=12 format=3 uid="uid://be1ahj7xjg0qp"]
+[gd_scene load_steps=17 format=3 uid="uid://be1ahj7xjg0qp"]
 
 [ext_resource type="Script" uid="uid://c2m5qc85mixmc" path="res://scripts/weapons/shotgun.gd" id="1_62vvp"]
 [ext_resource type="PackedScene" uid="uid://c2h1a7eni5s7j" path="res://prefabs/projectiles/Bullet.tscn" id="2_mqrj2"]
 
 [sub_resource type="Curve" id="Curve_mqrj2"]
-_data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(0.772059, 0.505618), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
-point_count = 3
+_data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(0.630705, 0.752809), 0.0, 0.0, 0, 0, Vector2(0.850622, 0.460674), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
+point_count = 4
 
 [sub_resource type="CurveTexture" id="CurveTexture_osviu"]
 curve = SubResource("Curve_mqrj2")
 
 [sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_mqrj2"]
 direction = Vector3(0, 0, -1)
+spread = 20.0
 initial_velocity_min = 1.0
-initial_velocity_max = 4.0
+initial_velocity_max = 15.0
 gravity = Vector3(0, 0, 0)
 scale_min = 0.0
 scale_curve = SubResource("CurveTexture_osviu")
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_mqrj2"]
+shading_mode = 0
 albedo_color = Color(1, 0.745707, 0.315094, 1)
 
 [sub_resource type="BoxMesh" id="BoxMesh_osviu"]
 material = SubResource("StandardMaterial3D_mqrj2")
-size = Vector3(0.5, 0.5, 0.5)
+size = Vector3(0.25, 0.25, 0.2)
+
+[sub_resource type="Curve" id="Curve_osviu"]
+_data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(0.727941, 0.696629), -0.370446, -0.370446, 0, 0, Vector2(0.904412, 0.348315), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
+point_count = 4
+
+[sub_resource type="CurveTexture" id="CurveTexture_f3xww"]
+curve = SubResource("Curve_osviu")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_osviu"]
+lifetime_randomness = 1.0
+direction = Vector3(0, 1, -0.5)
+spread = 20.0
+initial_velocity_max = 2.0
+gravity = Vector3(0, 1, 0)
+scale_curve = SubResource("CurveTexture_f3xww")
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_f3xww"]
+shading_mode = 0
+albedo_color = Color(0.265041, 0.213227, 0.202247, 1)
+
+[sub_resource type="SphereMesh" id="SphereMesh_6wtq5"]
+material = SubResource("StandardMaterial3D_f3xww")
+radius = 0.375
+height = 0.75
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_0e21h"]
 albedo_color = Color(0.18359, 0.18359, 0.18359, 1)
@@ -40,30 +66,20 @@ albedo_color = Color(0.348932, 0.160492, 0, 1)
 material = SubResource("StandardMaterial3D_62vvp")
 size = Vector3(0.15, 0.4, 0.3)
 
-[node name="Shotgun" type="Node3D" node_paths=PackedStringArray("muzzle_flash", "muzzle_light", "muzzle")]
+[node name="Shotgun" type="Node3D" node_paths=PackedStringArray("muzzle_flash", "muzzle_light", "muzzle_smoke", "muzzle")]
 script = ExtResource("1_62vvp")
 bullet_scene = ExtResource("2_mqrj2")
 muzzle_flash = NodePath("Muzzle/MuzzleFlash")
 muzzle_light = NodePath("Muzzle/MuzzleLight")
+muzzle_smoke = NodePath("Muzzle/MuzzleSmoke")
 muzzle = NodePath("Muzzle")
 
 [node name="Muzzle" type="Node3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.177169, -1.88201)
 
-[node name="MuzzleSmoke" type="GPUParticles3D" parent="Muzzle"]
-emitting = false
-amount = 12
-lifetime = 0.25
-one_shot = true
-explosiveness = 1.0
-randomness = 0.35
-process_material = SubResource("ParticleProcessMaterial_mqrj2")
-draw_pass_1 = SubResource("BoxMesh_osviu")
-
 [node name="MuzzleFlash" type="GPUParticles3D" parent="Muzzle"]
 emitting = false
-amount = 12
-lifetime = 0.25
+lifetime = 0.15
 one_shot = true
 explosiveness = 1.0
 randomness = 0.35
@@ -74,6 +90,16 @@ draw_pass_1 = SubResource("BoxMesh_osviu")
 light_color = Color(1, 0.482157, 0.2653, 1)
 light_energy = 5.0
 omni_range = 25.0
+
+[node name="MuzzleSmoke" type="GPUParticles3D" parent="Muzzle"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.110028)
+emitting = false
+amount = 32
+lifetime = 0.75
+one_shot = true
+explosiveness = 1.0
+process_material = SubResource("ParticleProcessMaterial_osviu")
+draw_pass_1 = SubResource("SphereMesh_6wtq5")
 
 [node name="Mesh" type="MeshInstance3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0.177169, -0.940786)

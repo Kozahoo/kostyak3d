@@ -16,7 +16,10 @@ extends Node3D
 
 @export var bullet_scene: PackedScene
 @export var muzzle_flash: GPUParticles3D
+@export var muzzle_smoke_delay := .2
+@onready var muzzle_smoke_delay_timer := Timer.new()
 @export var muzzle_light: Light3D
+@export var muzzle_smoke: GPUParticles3D
 @export var muzzle_light_duration := 0.05 # How long light stays visible
 @export var audio_player: AudioStreamPlayer3D
 @export var reload_sound: AudioStreamPlayer3D
@@ -40,6 +43,11 @@ func _ready():
 	# Hide muzzle light initially
 	if muzzle_light:
 		muzzle_light.visible = false
+	
+	muzzle_smoke_delay_timer.wait_time = muzzle_smoke_delay
+	muzzle_smoke_delay_timer.one_shot = true
+	muzzle_smoke_delay_timer.timeout.connect(_on_muzzle_smoke_delay_timeout)
+	add_child(muzzle_smoke_delay_timer)
 
 func setup_reload_timer():
 	reload_timer = Timer.new()
@@ -109,6 +117,12 @@ func play_muzzle_effects():
 	# Sound
 	if audio_player:
 		audio_player.play()
+	
+	muzzle_smoke_delay_timer.start(muzzle_smoke_delay)
+
+func _on_muzzle_smoke_delay_timeout():
+	if muzzle_smoke:
+		muzzle_smoke.restart()
 
 func _on_muzzle_light_timeout():
 	if muzzle_light:
