@@ -1,6 +1,6 @@
 [gd_scene load_steps=5 format=3 uid="uid://coledwrm7usje"]
 
-[ext_resource type="PackedScene" uid="uid://duitqb67xweb5" path="res://prefabs/player.tscn" id="1_ba4lm"]
+[ext_resource type="PackedScene" uid="uid://duitqb67xweb5" path="res://prefabs/Player.tscn" id="1_ba4lm"]
 [ext_resource type="PackedScene" uid="uid://bmft4x71382g0" path="res://prefabs/box.tscn" id="2_l20p6"]
 
 [sub_resource type="PlaneMesh" id="PlaneMesh_fr1sm"]

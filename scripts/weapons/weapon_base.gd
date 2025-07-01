@@ -27,6 +27,11 @@ extends Node3D
 
 @export var muzzle: Node3D
 
+signal fired()
+signal ammo_updated(current, max)
+signal reload_started(reload_time)
+signal reload_finished()
+
 var current_ammo: int
 var is_reloading := false
 var reload_timer: Timer
@@ -70,6 +75,13 @@ func setup_muzzle_light_timer():
 func can_fire() -> bool:
 	return current_ammo > 0 and not is_reloading and can_shoot
 
+func set_ammo(new_value: int):
+	current_ammo = clamp(new_value, 0, max_ammo)
+	ammo_updated.emit(current_ammo, max_ammo)
+
+func add_ammo(number: int):
+	set_ammo(current_ammo + number)
+
 func fire(ignore_cooldown: bool = false):
 	if not can_fire():
 		if current_ammo <= 0 and empty_sound:
@@ -79,7 +91,7 @@ func fire(ignore_cooldown: bool = false):
 	if not ignore_cooldown and not can_shoot:
 		return
 	
-	current_ammo -= 1
+	add_ammo(-1)
 	can_shoot = false
 	fire_cooldown_timer.start(fire_rate)
 	
@@ -103,6 +115,8 @@ func fire(ignore_cooldown: bool = false):
 		# Set bullet velocity
 		if bullet.has_method("initialize"):
 			bullet.initialize(bullet_speed, damage)
+	
+	fired.emit()
 
 func play_muzzle_effects():
 	# Particles
@@ -136,6 +150,7 @@ func reload():
 		return
 	
 	is_reloading = true
+	reload_started.emit(reload_time)
 	
 	# Play reload sound if available
 	if reload_sound:
@@ -147,4 +162,5 @@ func reload():
 func _on_reload_timer_timeout():
 	current_ammo = max_ammo
 	is_reloading = false
+	reload_finished.emit()
 	# You could add a reload complete sound here if needed

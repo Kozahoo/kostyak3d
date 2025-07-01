@@ -8,9 +8,48 @@ extends Node
 var weapons: Array[BaseWeapon] = []
 var current_weapon_index := 0
 
+signal weapon_changed(new_weapon)
+# Signals that mirror the weapon's signals
+signal weapon_fired()
+signal weapon_ammo_updated(current_ammo: int, max_ammo: int)
+signal weapon_reload_started(reload_time: float)
+signal weapon_reload_finished()
+
 func _ready():
 	for i in starting_weapons.size():
 		add_weapon(starting_weapons[i], i)
+	connect_weapon_signals(get_current_weapon())
+
+func connect_weapon_signals(weapon: BaseWeapon):
+	if !weapon:
+		return
+
+	weapon.fired.connect(_on_weapon_fired)
+	weapon.ammo_updated.connect(_on_weapon_ammo_updated)
+	weapon.reload_started.connect(_on_weapon_reload_started)
+	weapon.reload_finished.connect(_on_weapon_reload_finished)
+
+func disconnect_weapon_signals(weapon: BaseWeapon):
+	if !weapon:
+		return
+
+	weapon.fired.disconnect(_on_weapon_fired)
+	weapon.ammo_updated.disconnect(_on_weapon_ammo_updated)
+	weapon.reload_started.disconnect(_on_weapon_reload_started)
+	weapon.reload_finished.disconnect(_on_weapon_reload_finished)
+
+# Signal forwarders
+func _on_weapon_fired():
+	weapon_fired.emit()
+
+func _on_weapon_ammo_updated(current: int, max_ammo: int):
+	weapon_ammo_updated.emit(current, max_ammo)
+
+func _on_weapon_reload_started(reload_time: float):
+	weapon_reload_started.emit(reload_time)
+
+func _on_weapon_reload_finished():
+	weapon_reload_finished.emit()
 
 func add_weapon(weapon_scene: PackedScene, slot: int):
 	if slot >= weapon_positions.size():
@@ -28,9 +67,18 @@ func switch_weapon(index: int):
 	if index >= weapons.size():
 		return
 	
+	# Disconnect previous weapon signals
+	var old_weapon = get_current_weapon()
+	if old_weapon:
+		disconnect_weapon_signals(old_weapon)
+
 	weapons[current_weapon_index].visible = false
 	current_weapon_index = index
 	weapons[current_weapon_index].visible = true
+	weapon_changed.emit(weapons[current_weapon_index])
+
+	var new_weapon = get_current_weapon()
+	connect_weapon_signals(new_weapon)
 
 func get_current_weapon() -> BaseWeapon:
 	if weapons.is_empty():
