@@ -16,9 +16,9 @@ func _ready():
 	update_weapon_info(weapon_manager.get_current_weapon(), null)
 
 func update_weapon_info(new_weapon: BaseWeapon, old_weapon: BaseWeapon):
-	print('yep')
 	weapon_name_label.text = new_weapon.weapon_name
 	update_ammo(new_weapon.current_ammo, new_weapon.max_ammo)
+	stop_reload_bar()
 
 func update_ammo(current_ammo: int, max_ammo: int):
 	ammo_label.text = "%d / %d" % [current_ammo, max_ammo]

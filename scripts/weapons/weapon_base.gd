@@ -159,8 +159,11 @@ func reload():
 	# Start the reload timer
 	reload_timer.start(reload_time)
 
+func reload_interrupt():
+	reload_timer.stop()
+	is_reloading = false
+
 func _on_reload_timer_timeout():
 	set_ammo(max_ammo)
 	is_reloading = false
 	reload_finished.emit()
-	# You could add a reload complete sound here if needed
