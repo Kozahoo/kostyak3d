@@ -81,6 +81,7 @@ func switch_weapon(index: int):
 	var new_weapon = get_current_weapon()
 	connect_weapon_signals(new_weapon)
 	
+	new_weapon.equip()
 	weapon_changed.emit(new_weapon, old_weapon)
 
 func get_current_weapon() -> BaseWeapon:

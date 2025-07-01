@@ -17,7 +17,7 @@ scale_curve = SubResource("CurveTexture_f3xww")
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_f3xww"]
 shading_mode = 0
-albedo_color = Color(0.265041, 0.213227, 0.202247, 1)
+albedo_color = Color(0.589894, 0.496627, 0.483163, 0.556863)
 
 [sub_resource type="SphereMesh" id="SphereMesh_6wtq5"]
 material = SubResource("StandardMaterial3D_f3xww")
@@ -27,7 +27,6 @@ height = 0.75
 [node name="MuzzleSmoke" type="GPUParticles3D"]
 emitting = false
 amount = 32
-lifetime = 0.75
 one_shot = true
 explosiveness = 1.0
 process_material = SubResource("ParticleProcessMaterial_osviu")

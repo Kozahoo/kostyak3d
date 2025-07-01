@@ -1,7 +1,12 @@
-[gd_scene load_steps=7 format=3 uid="uid://cip244kkkb328"]
+[gd_scene load_steps=12 format=3 uid="uid://cip244kkkb328"]
 
-[ext_resource type="Script" uid="uid://ba3x2i4yjqja3" path="res://scripts/weapons/weapon_base.gd" id="1_ee7nw"]
+[ext_resource type="Script" uid="uid://8wi2alg5hqlm" path="res://scripts/weapons/pistol.gd" id="1_uex7b"]
 [ext_resource type="PackedScene" uid="uid://c2h1a7eni5s7j" path="res://prefabs/projectiles/Bullet.tscn" id="2_3321k"]
+[ext_resource type="AudioStream" uid="uid://d175opukh4m2h" path="res://sounds/weapons/pistol_equip_1.mp3" id="3_e3o58"]
+[ext_resource type="AudioStream" uid="uid://cn27ko16hobk0" path="res://sounds/weapons/pistol_equip_2.mp3" id="4_x77w1"]
+[ext_resource type="AudioStream" uid="uid://dg7fuqssh2i5x" path="res://sounds/weapons/pistol_shoot_1.mp3" id="5_m7nyw"]
+[ext_resource type="AudioStream" uid="uid://bivm40qn4oen6" path="res://sounds/weapons/pistol_reload.mp3" id="6_kqetn"]
+[ext_resource type="AudioStream" uid="uid://cbtuh04474b45" path="res://sounds/weapons/pistol_empty.mp3" id="7_cv2m6"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_72ieh"]
 albedo_color = Color(0.114897, 0.114897, 0.114897, 1)
@@ -18,16 +23,23 @@ material = SubResource("StandardMaterial3D_4dohe")
 size = Vector3(0.2, 0.45, 0.1)
 
 [node name="Pistol" type="Node3D" node_paths=PackedStringArray("muzzle_light", "muzzle")]
-script = ExtResource("1_ee7nw")
-weapon_name = "Pistol"
+script = ExtResource("1_uex7b")
 bullet_scene = ExtResource("2_3321k")
-muzzle_light = NodePath("Muzzle/MuzzleFlash")
+muzzle_light = NodePath("Muzzle/MuzzleLight")
+equip_sounds = Array[AudioStream]([ExtResource("3_e3o58"), ExtResource("4_x77w1")])
+fire_sounds = Array[AudioStream]([ExtResource("5_m7nyw")])
+reload_start_sounds = Array[AudioStream]([ExtResource("6_kqetn")])
+empty_sounds = Array[AudioStream]([ExtResource("7_cv2m6")])
 muzzle = NodePath("Muzzle")
 
-[node name="Muzzle" type="Node3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 0.999657, -0.0261769, 0, 0.0261769, 0.999657, 0, 0.490963, -0.857494)
+[node name="FXAudioPlayer" type="AudioStreamPlayer3D" parent="."]
 
-[node name="MuzzleFlash" type="OmniLight3D" parent="Muzzle"]
+[node name="FireAudioPlayer" type="AudioStreamPlayer3D" parent="."]
+
+[node name="Muzzle" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 0.999657, -0.0261769, 0, 0.0261769, 0.999657, 0, 0.351009, -1.03116)
+
+[node name="MuzzleLight" type="OmniLight3D" parent="Muzzle"]
 light_color = Color(0.992366, 0.831825, 2.31028e-06, 1)
 light_energy = 3.0
 omni_range = 15.0

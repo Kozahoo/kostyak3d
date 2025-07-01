@@ -1,8 +1,12 @@
-[gd_scene load_steps=13 format=3 uid="uid://be1ahj7xjg0qp"]
+[gd_scene load_steps=17 format=3 uid="uid://be1ahj7xjg0qp"]
 
 [ext_resource type="Script" uid="uid://c2m5qc85mixmc" path="res://scripts/weapons/shotgun.gd" id="1_62vvp"]
 [ext_resource type="PackedScene" uid="uid://c2h1a7eni5s7j" path="res://prefabs/projectiles/Bullet.tscn" id="2_mqrj2"]
 [ext_resource type="PackedScene" uid="uid://bkcpxm3t12l6n" path="res://prefabs/effects/muzzle_smoke.tscn" id="3_osviu"]
+[ext_resource type="AudioStream" uid="uid://5b4r6sf27tlg" path="res://sounds/weapons/shotgun_equip.mp3" id="4_devhq"]
+[ext_resource type="AudioStream" uid="uid://bwqh4bmaub0o5" path="res://sounds/weapons/shotgun_fire_1.mp3" id="5_m7abe"]
+[ext_resource type="AudioStream" uid="uid://bkxc6vmrssvjg" path="res://sounds/weapons/shotgun_reload.mp3" id="6_el48m"]
+[ext_resource type="AudioStream" uid="uid://bewc432yckhap" path="res://sounds/weapons/shotgun_empty.mp3" id="7_8w2cu"]
 
 [sub_resource type="Curve" id="Curve_mqrj2"]
 _data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(0.630705, 0.752809), 0.0, 0.0, 0, 0, Vector2(0.850622, 0.460674), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
@@ -49,14 +53,22 @@ bullet_scene = ExtResource("2_mqrj2")
 muzzle_flash = NodePath("Muzzle/MuzzleFlash")
 muzzle_light = NodePath("Muzzle/MuzzleLight")
 muzzle_smoke = ExtResource("3_osviu")
+equip_sounds = Array[AudioStream]([ExtResource("4_devhq")])
+fire_sounds = Array[AudioStream]([ExtResource("5_m7abe")])
+reload_start_sounds = Array[AudioStream]([ExtResource("6_el48m")])
+empty_sounds = Array[AudioStream]([ExtResource("7_8w2cu")])
 muzzle = NodePath("Muzzle")
+
+[node name="FXAudioPlayer" type="AudioStreamPlayer3D" parent="."]
+
+[node name="FireAudioPlayer" type="AudioStreamPlayer3D" parent="."]
 
 [node name="Muzzle" type="Node3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.177169, -1.88201)
 
 [node name="MuzzleFlash" type="GPUParticles3D" parent="Muzzle"]
 emitting = false
-lifetime = 0.15
+lifetime = 0.35
 one_shot = true
 explosiveness = 1.0
 randomness = 0.35

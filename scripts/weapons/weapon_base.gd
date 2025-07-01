@@ -16,17 +16,25 @@ extends Node3D
 
 @export var bullet_scene: PackedScene
 @export var muzzle_flash: GPUParticles3D
-@export var muzzle_smoke_delay := .2
+@export var muzzle_smoke_delay := .15
 @onready var muzzle_smoke_delay_timer := Timer.new()
 @export var muzzle_light: Light3D
 @export var muzzle_smoke: PackedScene
 @export var muzzle_light_duration := 0.05 # How long light stays visible
-@export var audio_player: AudioStreamPlayer3D
-@export var reload_sound: AudioStreamPlayer3D
-@export var empty_sound: AudioStreamPlayer3D # For when weapon is empty
+
+# Sound arrays
+@export var equip_sounds: Array[AudioStream]
+@export var fire_sounds: Array[AudioStream]
+@export var reload_start_sounds: Array[AudioStream]
+@export var reload_finish_sounds: Array[AudioStream]
+@export var empty_sounds: Array[AudioStream]
+
+@onready var fx_audio_player: AudioStreamPlayer3D = $FXAudioPlayer
+@onready var fire_audio_player: AudioStreamPlayer3D = $FireAudioPlayer
 
 @export var muzzle: Node3D
 
+signal equiped()
 signal fired()
 signal ammo_updated(current, max)
 signal reload_started(reload_time)
@@ -72,6 +80,10 @@ func setup_muzzle_light_timer():
 	muzzle_light_timer.timeout.connect(_on_muzzle_light_timeout)
 	add_child(muzzle_light_timer)
 
+func equip():
+	play_sound(equip_sounds.pick_random())
+	equiped.emit()
+
 func can_fire() -> bool:
 	return current_ammo > 0 and not is_reloading and can_shoot
 
@@ -83,9 +95,11 @@ func add_ammo(number: int):
 	set_ammo(current_ammo + number)
 
 func fire(ignore_cooldown: bool = false):
+	if can_shoot and not is_reloading and current_ammo <= 0:
+		play_sound(empty_sounds.pick_random())
+		can_shoot = false
+		fire_cooldown_timer.start(fire_rate)
 	if not can_fire():
-		if current_ammo <= 0 and empty_sound:
-			empty_sound.play()
 		return
 	
 	if not ignore_cooldown and not can_shoot:
@@ -97,6 +111,7 @@ func fire(ignore_cooldown: bool = false):
 	
 	# Play effects
 	play_muzzle_effects()
+	play_sound(fire_sounds.pick_random(), fire_audio_player)
 
 	# Create bullets
 	for i in bullet_count:
@@ -128,10 +143,6 @@ func play_muzzle_effects():
 		muzzle_light.visible = true
 		muzzle_light_timer.start(muzzle_light_duration)
 	
-	# Sound
-	if audio_player:
-		audio_player.play()
-	
 	muzzle_smoke_delay_timer.start(muzzle_smoke_delay)
 
 func _on_muzzle_smoke_delay_timeout():
@@ -160,9 +171,7 @@ func reload():
 	is_reloading = true
 	reload_started.emit(reload_time)
 	
-	# Play reload sound if available
-	if reload_sound:
-		reload_sound.play()
+	play_sound(reload_start_sounds.pick_random())
 	
 	# Start the reload timer
 	reload_timer.start(reload_time)
@@ -170,8 +179,19 @@ func reload():
 func reload_interrupt():
 	reload_timer.stop()
 	is_reloading = false
+	play_sound(equip_sounds.pick_random())
 
 func _on_reload_timer_timeout():
 	set_ammo(max_ammo)
 	is_reloading = false
 	reload_finished.emit()
+	if reload_finish_sounds.size() > 0:
+		play_sound(reload_finish_sounds.pick_random())
+	else:
+		play_sound(equip_sounds.pick_random())
+
+func play_sound(sound: AudioStream, player: AudioStreamPlayer3D = fx_audio_player):
+	if not player: return
+	if not sound: return
+	player.stream = sound
+	player.play()
