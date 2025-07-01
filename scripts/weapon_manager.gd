@@ -4,9 +4,10 @@ extends Node
 
 @export var starting_weapons: Array[PackedScene]
 @export var weapon_positions: Array[NodePath]
+@export var starting_equip_slot: int = 0
 
 var weapons: Array[BaseWeapon] = []
-var current_weapon_index := 0
+var current_weapon_index := -1
 
 signal weapon_changed(new_weapon: BaseWeapon, old_weapon: BaseWeapon)
 # Signals that mirror the weapon's signals
@@ -18,7 +19,7 @@ signal weapon_reload_finished()
 func _ready():
 	for i in starting_weapons.size():
 		add_weapon(starting_weapons[i], i)
-	switch_weapon(current_weapon_index)
+	switch_weapon(starting_equip_slot)
 	connect_weapon_signals(get_current_weapon())
 
 func connect_weapon_signals(weapon: BaseWeapon):
@@ -64,8 +65,8 @@ func add_weapon(weapon_scene: PackedScene, slot: int):
 	weapon.visible = (slot == 0)
 
 func switch_weapon(index: int):
-	print('Switched to weapon #', index)
-	if index >= weapons.size():
+	if( index == current_weapon_index or
+		index >= weapons.size() ):
 		return
 	
 	# Disconnect previous weapon signals
@@ -82,6 +83,7 @@ func switch_weapon(index: int):
 	connect_weapon_signals(new_weapon)
 	
 	new_weapon.equip()
+	print('Switched to weapon #', index)
 	weapon_changed.emit(new_weapon, old_weapon)
 
 func get_current_weapon() -> BaseWeapon:
