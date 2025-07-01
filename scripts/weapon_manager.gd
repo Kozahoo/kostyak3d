@@ -73,7 +73,8 @@ func switch_weapon(index: int):
 	var old_weapon = get_current_weapon()
 	if old_weapon:
 		disconnect_weapon_signals(old_weapon)
-		old_weapon.reload_interrupt()
+		if old_weapon.is_reloading:
+			old_weapon.reload_interrupt()
 
 	weapons[current_weapon_index].visible = false
 	current_weapon_index = index
