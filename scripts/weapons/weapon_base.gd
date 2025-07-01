@@ -16,17 +16,21 @@ extends Node3D
 @export var bullet_scene: PackedScene
 @export var muzzle_flash: GPUParticles3D
 @export var audio_player: AudioStreamPlayer3D
-@export var reload_sound: AudioStreamPlayer3D # Add this for reload sound
+@export var reload_sound: AudioStreamPlayer3D
+@export var empty_sound: AudioStreamPlayer3D # For when weapon is empty
 
 @export var muzzle: Node3D
 
 var current_ammo: int
 var is_reloading := false
 var reload_timer: Timer
+var fire_cooldown_timer: Timer
+var can_shoot := true
 
 func _ready():
 	current_ammo = max_ammo
 	setup_reload_timer()
+	setup_fire_cooldown_timer()
 
 func setup_reload_timer():
 	reload_timer = Timer.new()
@@ -34,15 +38,27 @@ func setup_reload_timer():
 	reload_timer.timeout.connect(_on_reload_timer_timeout)
 	add_child(reload_timer)
 
-func can_fire() -> bool:
-	return current_ammo > 0 and not is_reloading
+func setup_fire_cooldown_timer():
+	fire_cooldown_timer = Timer.new()
+	fire_cooldown_timer.one_shot = true
+	fire_cooldown_timer.timeout.connect(_on_fire_cooldown_timeout)
+	add_child(fire_cooldown_timer)
 
-func fire():
+func can_fire() -> bool:
+	return current_ammo > 0 and not is_reloading and can_shoot
+
+func fire(ignore_cooldown: bool = false):
 	if not can_fire():
-		# Optionally play empty click sound here
+		if current_ammo <= 0 and empty_sound:
+			empty_sound.play()
+		return
+	
+	if not ignore_cooldown and not can_shoot:
 		return
 	
 	current_ammo -= 1
+	can_shoot = false
+	fire_cooldown_timer.start(fire_rate)
 	
 	# Play effects
 	if muzzle_flash:
@@ -67,6 +83,9 @@ func fire():
 		# Set bullet velocity
 		if bullet.has_method("initialize"):
 			bullet.initialize(bullet_speed, damage)
+
+func _on_fire_cooldown_timeout():
+	can_shoot = true
 
 func reload():
 	if is_reloading or current_ammo == max_ammo:
