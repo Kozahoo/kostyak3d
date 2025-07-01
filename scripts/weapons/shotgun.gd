@@ -9,6 +9,6 @@ func _ready():
 	bullet_count = 8
 	max_ammo = 32
 	reload_time = 1.2
-	automatic = false
+	automatic = true
 	
 	super._ready()

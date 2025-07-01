@@ -41,3 +41,8 @@ func fire_current_weapon():
 	var weapon = get_current_weapon()
 	if weapon:
 		weapon.fire()
+
+func reload_current_weapon():
+	var weapon = get_current_weapon()
+	if weapon:
+		weapon.reload()

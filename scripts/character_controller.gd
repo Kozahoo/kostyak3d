@@ -50,9 +50,14 @@ func _unhandled_input(event):
 	if event.is_action_pressed("weapon_2"):
 		weapon_manager.switch_weapon(1)
 
-	# Firing
-	if event.is_action_pressed("fire") or (weapon_manager.get_current_weapon() and weapon_manager.get_current_weapon().automatic and Input.is_action_pressed("fire")):
-		weapon_manager.fire_current_weapon()
+	var current_weapon = weapon_manager.get_current_weapon()
+	if current_weapon:
+		# Firing
+		if event.is_action_pressed("fire") and not current_weapon.automatic:
+			weapon_manager.fire_current_weapon()
+		# Reloading
+		elif event.is_action_pressed("reload"):
+			weapon_manager.reload_current_weapon()
 
 func _physics_process(delta):
 	# Handle movement input first
@@ -90,6 +95,11 @@ func _physics_process(delta):
 	move_and_slide()
 
 func _process(delta):
+	# Automatic Firing
+	var current_weapon = weapon_manager.get_current_weapon()
+	if Input.is_action_pressed("fire") and current_weapon and current_weapon.automatic:
+		weapon_manager.fire_current_weapon()
+	
 	return
 	
 	# Camera collision with environment
