@@ -8,7 +8,7 @@ extends Node
 var weapons: Array[BaseWeapon] = []
 var current_weapon_index := 0
 
-signal weapon_changed(new_weapon)
+signal weapon_changed(new_weapon: BaseWeapon, old_weapon: BaseWeapon)
 # Signals that mirror the weapon's signals
 signal weapon_fired()
 signal weapon_ammo_updated(current_ammo: int, max_ammo: int)
@@ -18,6 +18,7 @@ signal weapon_reload_finished()
 func _ready():
 	for i in starting_weapons.size():
 		add_weapon(starting_weapons[i], i)
+	switch_weapon(current_weapon_index)
 	connect_weapon_signals(get_current_weapon())
 
 func connect_weapon_signals(weapon: BaseWeapon):
@@ -75,10 +76,11 @@ func switch_weapon(index: int):
 	weapons[current_weapon_index].visible = false
 	current_weapon_index = index
 	weapons[current_weapon_index].visible = true
-	weapon_changed.emit(weapons[current_weapon_index])
 
 	var new_weapon = get_current_weapon()
 	connect_weapon_signals(new_weapon)
+	
+	weapon_changed.emit(new_weapon, old_weapon)
 
 func get_current_weapon() -> BaseWeapon:
 	if weapons.is_empty():

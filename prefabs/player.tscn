@@ -1,10 +1,11 @@
-[gd_scene load_steps=9 format=3 uid="uid://duitqb67xweb5"]
+[gd_scene load_steps=10 format=3 uid="uid://duitqb67xweb5"]
 
 [ext_resource type="Script" uid="uid://blqy6ph5er7yi" path="res://scripts/character_controller.gd" id="1_ht1c8"]
 [ext_resource type="PackedScene" uid="uid://cxedajqf4o3rt" path="res://models/characters/Kostyak/Kostyak.glb" id="2_4dohe"]
 [ext_resource type="Script" uid="uid://cu8au6qe2n1ef" path="res://scripts/weapon_manager.gd" id="3_r66lb"]
 [ext_resource type="PackedScene" uid="uid://cip244kkkb328" path="res://prefabs/weapons/Pistol.tscn" id="4_1txc5"]
 [ext_resource type="PackedScene" uid="uid://be1ahj7xjg0qp" path="res://prefabs/weapons/Shotgun.tscn" id="5_ht1c8"]
+[ext_resource type="Script" uid="uid://bh0qd6kfvyhui" path="res://scripts/ui/weapon_ui.gd" id="6_1nynx"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_fr1sm"]
 radius = 0.361957
@@ -44,3 +45,37 @@ weapon_positions = Array[NodePath]([NodePath("Hand"), NodePath("Hand")])
 
 [node name="Hand" type="Node3D" parent="WeaponManager"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.605252, 0.229886, 0)
+
+[node name="WeaponUI" type="CanvasLayer" parent="." node_paths=PackedStringArray("weapon_manager")]
+script = ExtResource("6_1nynx")
+weapon_manager = NodePath("../WeaponManager")
+
+[node name="Panel" type="Panel" parent="WeaponUI"]
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 0
+grow_vertical = 0
+
+[node name="WeaponName" type="Label" parent="WeaponUI/Panel"]
+layout_mode = 0
+offset_left = -192.0
+offset_top = -120.0
+offset_right = -80.0
+offset_bottom = -89.0
+
+[node name="AmmoCounter" type="Label" parent="WeaponUI/Panel"]
+layout_mode = 0
+offset_left = -72.0
+offset_top = -120.0
+offset_right = -16.0
+offset_bottom = -89.0
+
+[node name="ReloadProgress" type="ProgressBar" parent="WeaponUI/Panel"]
+layout_mode = 0
+offset_left = -192.0
+offset_top = -89.0
+offset_right = -8.0
+offset_bottom = -62.0
