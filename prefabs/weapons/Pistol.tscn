@@ -17,14 +17,20 @@ albedo_color = Color(0.393552, 0.211827, 0.12422, 1)
 material = SubResource("StandardMaterial3D_4dohe")
 size = Vector3(0.2, 0.45, 0.1)
 
-[node name="Pistol" type="Node3D" node_paths=PackedStringArray("muzzle")]
+[node name="Pistol" type="Node3D" node_paths=PackedStringArray("muzzle_light", "muzzle")]
 script = ExtResource("1_ee7nw")
 weapon_name = "Pistol"
 bullet_scene = ExtResource("2_3321k")
+muzzle_light = NodePath("Muzzle/MuzzleFlash")
 muzzle = NodePath("Muzzle")
 
 [node name="Muzzle" type="Node3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 0.999657, -0.0261769, 0, 0.0261769, 0.999657, 0, 0.490963, -0.857494)
+
+[node name="MuzzleFlash" type="OmniLight3D" parent="Muzzle"]
+light_color = Color(0.992366, 0.831825, 2.31028e-06, 1)
+light_energy = 3.0
+omni_range = 15.0
 
 [node name="Mesh" type="MeshInstance3D" parent="."]
 transform = Transform3D(0.0592927, 0.354731, -0.933086, -0.0643434, 0.934145, 0.351044, 0.996165, 0.0392242, 0.0782131, 0.169603, 0.339895, -0.552501)

@@ -16,6 +16,8 @@ extends Node3D
 
 @export var bullet_scene: PackedScene
 @export var muzzle_flash: GPUParticles3D
+@export var muzzle_light: Light3D
+@export var muzzle_light_duration := 0.05 # How long light stays visible
 @export var audio_player: AudioStreamPlayer3D
 @export var reload_sound: AudioStreamPlayer3D
 @export var empty_sound: AudioStreamPlayer3D # For when weapon is empty
@@ -26,12 +28,18 @@ var current_ammo: int
 var is_reloading := false
 var reload_timer: Timer
 var fire_cooldown_timer: Timer
+var muzzle_light_timer: Timer
 var can_shoot := true
 
 func _ready():
 	current_ammo = max_ammo
 	setup_reload_timer()
 	setup_fire_cooldown_timer()
+	setup_muzzle_light_timer()
+	
+	# Hide muzzle light initially
+	if muzzle_light:
+		muzzle_light.visible = false
 
 func setup_reload_timer():
 	reload_timer = Timer.new()
@@ -44,6 +52,12 @@ func setup_fire_cooldown_timer():
 	fire_cooldown_timer.one_shot = true
 	fire_cooldown_timer.timeout.connect(_on_fire_cooldown_timeout)
 	add_child(fire_cooldown_timer)
+
+func setup_muzzle_light_timer():
+	muzzle_light_timer = Timer.new()
+	muzzle_light_timer.one_shot = true
+	muzzle_light_timer.timeout.connect(_on_muzzle_light_timeout)
+	add_child(muzzle_light_timer)
 
 func can_fire() -> bool:
 	return current_ammo > 0 and not is_reloading and can_shoot
@@ -62,11 +76,8 @@ func fire(ignore_cooldown: bool = false):
 	fire_cooldown_timer.start(fire_rate)
 	
 	# Play effects
-	if muzzle_flash:
-		muzzle_flash.restart()
-	if audio_player:
-		audio_player.play()
-	
+	play_muzzle_effects()
+
 	# Create bullets
 	for i in bullet_count:
 		var bullet = bullet_scene.instantiate()
@@ -84,6 +95,24 @@ func fire(ignore_cooldown: bool = false):
 		# Set bullet velocity
 		if bullet.has_method("initialize"):
 			bullet.initialize(bullet_speed, damage)
+
+func play_muzzle_effects():
+	# Particles
+	if muzzle_flash:
+		muzzle_flash.restart()
+	
+	# Light flash
+	if muzzle_light:
+		muzzle_light.visible = true
+		muzzle_light_timer.start(muzzle_light_duration)
+	
+	# Sound
+	if audio_player:
+		audio_player.play()
+
+func _on_muzzle_light_timeout():
+	if muzzle_light:
+		muzzle_light.visible = false
 
 func _on_fire_cooldown_timeout():
 	can_shoot = true
