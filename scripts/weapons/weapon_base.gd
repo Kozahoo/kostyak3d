@@ -7,7 +7,8 @@ extends Node3D
 @export var damage := 10
 @export var fire_rate := 0.2 # seconds between shots
 @export var bullet_speed := 50.0
-@export var bullet_spread := 0.05 # in radians
+@export var bullet_spread_x := 0.05
+@export var bullet_spread_y := 0.05
 @export var bullet_count := 1
 @export var max_ammo := 30
 @export var reload_time := 1.5
@@ -75,8 +76,8 @@ func fire(ignore_cooldown: bool = false):
 		bullet.global_transform = muzzle.global_transform
 		
 		# Apply spread
-		var spread_x = randf_range(-bullet_spread, bullet_spread)
-		var spread_y = randf_range(-bullet_spread, bullet_spread)
+		var spread_x = randf_range(-bullet_spread_x, bullet_spread_x)
+		var spread_y = randf_range(-bullet_spread_y, bullet_spread_y)
 		bullet.rotate_x(spread_x)
 		bullet.rotate_y(spread_y)
 		
