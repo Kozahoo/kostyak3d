@@ -18,8 +18,9 @@ albedo_color = Color(1, 0.402818, 0.424294, 1)
 material = SubResource("StandardMaterial3D_5hfv0")
 size = Vector3(1, 2, 1)
 
-[node name="Player" type="CharacterBody3D"]
+[node name="Player" type="CharacterBody3D" node_paths=PackedStringArray("hands_pivot")]
 script = ExtResource("1_ht1c8")
+hands_pivot = NodePath("WeaponManager/Hand")
 
 [node name="Kostyak" parent="." instance=ExtResource("2_4dohe")]
 transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 0, -1, 0)

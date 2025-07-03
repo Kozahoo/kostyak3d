@@ -8,8 +8,9 @@ extends CharacterBody3D
 # Camera settings
 @export var camera_sensitivity := .001
 @export var camera_pitch_limit := deg_to_rad(45)
-
+# Weapon system
 @onready var weapon_manager: WeaponManager = $WeaponManager
+@export var hands_pivot: Node3D
 
 # Get the gravity from the project settings
 var gravity: float = ProjectSettings.get_setting("physics/3d/default_gravity")
@@ -36,6 +37,7 @@ func _unhandled_input(event):
 		# Vertical rotation (up/down) - applied to camera pivot
 		camera_pivot.rotate_x(-event.relative.y * camera_sensitivity)
 		camera_pivot.rotation.x = clamp(camera_pivot.rotation.x, -camera_pitch_limit, camera_pitch_limit)
+		hands_pivot.rotation.x = camera_pivot.rotation.x
 	
 	# Toggle mouse capture
 	if event.is_action_pressed("cancel"):
