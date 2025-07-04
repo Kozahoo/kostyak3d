@@ -1,12 +1,18 @@
-[gd_scene load_steps=5 format=3 uid="uid://coledwrm7usje"]
+[gd_scene load_steps=7 format=3 uid="uid://coledwrm7usje"]
 
-[ext_resource type="PackedScene" uid="uid://duitqb67xweb5" path="res://prefabs/Player.tscn" id="1_ba4lm"]
+[ext_resource type="PackedScene" uid="uid://duitqb67xweb5" path="res://prefabs/player.tscn" id="1_ba4lm"]
 [ext_resource type="PackedScene" uid="uid://bmft4x71382g0" path="res://prefabs/box.tscn" id="2_l20p6"]
 
 [sub_resource type="PlaneMesh" id="PlaneMesh_fr1sm"]
 size = Vector2(100, 100)
 
 [sub_resource type="WorldBoundaryShape3D" id="WorldBoundaryShape3D_5hfv0"]
+
+[sub_resource type="BoxMesh" id="BoxMesh_ba4lm"]
+size = Vector3(10, 5, 1)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_ba4lm"]
+size = Vector3(10, 5, 1)
 
 [node name="Demo" type="Node3D"]
 
@@ -107,3 +113,12 @@ mesh = SubResource("PlaneMesh_fr1sm")
 
 [node name="Hitbox" type="CollisionShape3D" parent="Ground"]
 shape = SubResource("WorldBoundaryShape3D_5hfv0")
+
+[node name="Wall" type="StaticBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.5, -8.13)
+
+[node name="Mesh" type="MeshInstance3D" parent="Wall"]
+mesh = SubResource("BoxMesh_ba4lm")
+
+[node name="Hitbox" type="CollisionShape3D" parent="Wall"]
+shape = SubResource("BoxShape3D_ba4lm")
