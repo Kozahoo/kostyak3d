@@ -2,6 +2,8 @@ extends Node3D
 
 @export var lifetime := 32.0
 @export var mesh_instance: MeshInstance3D
+@export var impact_particles: GPUParticles3D
+@export var dust_particles: GPUParticles3D
 
 var material: Material
 var fade_timer := 0.0
@@ -35,6 +37,11 @@ func _ready():
 	if material is BaseMaterial3D:
 		material.transparency = BaseMaterial3D.TRANSPARENCY_ALPHA
 		material.blend_mode = BaseMaterial3D.BLEND_MODE_MIX
+	
+	if impact_particles:
+		impact_particles.emitting = true
+	if dust_particles:
+		dust_particles.emitting = true
 
 func _process(delta):
 	if !material:
