@@ -1,10 +1,10 @@
 [gd_scene load_steps=10 format=3 uid="uid://duitqb67xweb5"]
 
 [ext_resource type="Script" uid="uid://blqy6ph5er7yi" path="res://scripts/character_controller.gd" id="1_ht1c8"]
-[ext_resource type="PackedScene" uid="uid://cfl0iutch3yxy" path="res://models/characters/Kostyak/Kostyak.glb" id="2_4dohe"]
+[ext_resource type="PackedScene" uid="uid://cxedajqf4o3rt" path="res://models/characters/Kostyak/Kostyak.glb" id="2_4dohe"]
 [ext_resource type="Script" uid="uid://cu8au6qe2n1ef" path="res://scripts/weapon_manager.gd" id="3_r66lb"]
-[ext_resource type="PackedScene" uid="uid://cip244kkkb328" path="res://prefabs/weapons/Pistol.tscn" id="4_1txc5"]
-[ext_resource type="PackedScene" uid="uid://be1ahj7xjg0qp" path="res://prefabs/weapons/Shotgun.tscn" id="5_ht1c8"]
+[ext_resource type="PackedScene" uid="uid://cip244kkkb328" path="res://prefabs/weapons/pistol.tscn" id="4_1txc5"]
+[ext_resource type="PackedScene" uid="uid://be1ahj7xjg0qp" path="res://prefabs/weapons/shotgun.tscn" id="5_ht1c8"]
 [ext_resource type="Script" uid="uid://bh0qd6kfvyhui" path="res://scripts/ui/weapon_ui.gd" id="6_1nynx"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_fr1sm"]
