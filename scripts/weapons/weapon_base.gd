@@ -116,10 +116,9 @@ func fire(ignore_cooldown: bool = false):
 	# Create bullets
 	for i in bullet_count:
 		var bullet = bullet_scene.instantiate()
-		get_tree().root.add_child(bullet)
-		
 		# Set bullet position/rotation
 		bullet.global_transform = muzzle.global_transform
+		get_tree().root.add_child(bullet)
 		
 		# Apply spread
 		var spread_x = randf_range(-bullet_spread_x, bullet_spread_x)
