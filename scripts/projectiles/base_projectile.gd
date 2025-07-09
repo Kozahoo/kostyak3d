@@ -1,4 +1,4 @@
-class_name BaseProjectile
+class_name Projectile
 extends RigidBody3D
 
 @export var lifetime := 2.0
@@ -20,15 +20,19 @@ func initialize(speed: float, dmg: int, time: float = lifetime):
 	linear_velocity = -global_transform.basis.z * speed
 
 func hit(body: Node3D, at: Vector3, normal: Vector3 = Vector3.UP):
-	if body.has_method("take_damage"):
-		body.take_damage(damage)
+	
+	var body_health: HealthComponent = ComponentUtils.get_component(
+		body, ComponentUtils.COMPONENTS.HEALTH )
+	if body_health:
+		body_health.take_damage(damage)
+	else:
+		pass # INVINCIBLE
 	
 	if bullet_hole_scene:
 		var new_bullet_hole = bullet_hole_scene.instantiate()
 		body.add_child(new_bullet_hole)
 		new_bullet_hole.global_position = at
 		new_bullet_hole.look_at(at + normal, Vector3.UP) # Orient bullet hole to surface normal
-		
 	
 	die()
 
@@ -55,7 +59,3 @@ func _physics_process(delta):
 		hit(result.collider, result.position, result.normal)
 	
 	_last_position = global_position
-
-#func _on_body_entered(body):
-	## Still keep this as backup for cases where raycast might miss
-	#hit(body, global_position)

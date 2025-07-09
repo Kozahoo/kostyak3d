@@ -15,6 +15,10 @@ run/main_scene="uid://coledwrm7usje"
 config/features=PackedStringArray("4.4", "Forward Plus")
 config/icon="res://icon.svg"
 
+[autoload]
+
+ComponentUtils="*res://scripts/utils/component_utils.gd"
+
 [display]
 
 window/stretch/aspect="expand"

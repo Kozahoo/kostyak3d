@@ -1,6 +1,7 @@
-[gd_scene load_steps=5 format=3 uid="uid://bmft4x71382g0"]
+[gd_scene load_steps=6 format=3 uid="uid://bmft4x71382g0"]
 
 [ext_resource type="Script" uid="uid://bmxllfgfiwd0v" path="res://scripts/box.gd" id="1_6w8bi"]
+[ext_resource type="PackedScene" uid="uid://ccnw11qpqaw2m" path="res://prefabs/components/health_component.tscn" id="2_ly5db"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_o615o"]
 albedo_color = Color(0.504328, 0.239111, 0.120312, 1)
@@ -18,3 +19,8 @@ mesh = SubResource("BoxMesh_6w8bi")
 
 [node name="Hitbox" type="CollisionShape3D" parent="."]
 shape = SubResource("BoxShape3D_ly5db")
+
+[node name="Components" type="Node" parent="."]
+
+[node name="HealthComponent" parent="Components" node_paths=PackedStringArray("parent") instance=ExtResource("2_ly5db")]
+parent = NodePath("../..")
